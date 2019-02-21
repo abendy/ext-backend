@@ -19,7 +19,6 @@
 
         body {
             -webkit-font-smoothing: antialiased;
-            overflow: hidden;
             overflow-x: hidden;
             text-rendering: optimizeLegibility;
         }
@@ -28,9 +27,7 @@
 
 <body>
     {% if page %}
-    <p>Loading {{ page }}!</p>
-    {% else %}
-    <p>Hello, World!</p>
+    {{ page|safe }}
     {% endif %}
 
 </body>
