@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>quote-saver</title>
+
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            box-sizing: border-box;
+            height: 100%;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            overflow-x: hidden;
+            text-rendering: optimizeLegibility;
+        }
+    </style>
+</head>
+
+<body>
+    {% if page %}
+    <p>Loading {{ page }}!</p>
+    {% else %}
+    <p>Hello, World!</p>
+    {% endif %}
+
+</body>
+
+</html>
