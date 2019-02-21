@@ -46,3 +46,10 @@ RUN pyenv global $PY_VERSION
 
 ENV PATH /root/.pyenv/shims:$PATH
 RUN pip install --upgrade pip
+RUN pip install pipenv
+
+# Setup app
+
+COPY . /code
+WORKDIR /code
+RUN pipenv install
