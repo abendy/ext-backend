@@ -7,6 +7,7 @@
 
     <title>quote-saver</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material-grid.min.css" />
     <style>
         ::-webkit-scrollbar {
             display: none;
@@ -22,13 +23,23 @@
             overflow-x: hidden;
             text-rendering: optimizeLegibility;
         }
+
+        #main {
+
+        }
     </style>
 </head>
 
 <body>
-    {% if page %}
-    {{ page|safe }}
+    {% if title %}
+    <h1>{{ title }}</h1>
     {% endif %}
+
+    <div id="main">
+        {% if page %}
+        {{ page|safe }}
+        {% endif %}
+    </div>
 
 </body>
 
