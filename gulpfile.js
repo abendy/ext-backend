@@ -7,7 +7,7 @@ const lint = require('eslint')
 const uglify = require('gulp-uglify')
 
 const src = 'src/'
-const dist = 'app/templates/'
+const dist = 'app/static/'
 
 //////////////////////////////
 // Begin Gulp Tasks
