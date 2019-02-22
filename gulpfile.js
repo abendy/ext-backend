@@ -22,7 +22,7 @@ function scripts() {
         'node_modules/rangy/lib/rangy-core.js',
         'node_modules/rangy/lib/rangy-classapplier.js',
         'node_modules/rangy/lib/rangy-highlighter.js',
-        src + 'js/app.js'
+        src + 'js/rangy.js'
     ])
     .pipe(uglify())
     .pipe(concat('main.js'))
