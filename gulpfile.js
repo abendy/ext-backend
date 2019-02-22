@@ -20,8 +20,6 @@ function clean(cb) {
 function scripts() {
     return gulp.src([
         'node_modules/rangy/lib/rangy-core.js',
-        'node_modules/rangy/lib/rangy-classapplier.js',
-        'node_modules/rangy/lib/rangy-highlighter.js',
         src + 'js/rangy.js'
     ])
     .pipe(uglify())
