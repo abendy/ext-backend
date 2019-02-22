@@ -29,7 +29,7 @@ function scripts() {
     .pipe(gulp.dest(dist + 'js/'))
 }
 
-const build = gulp.parallel(clean, scripts)
+const build = gulp.series(clean, scripts)
 
 exports.default = build
 exports.build = build
