@@ -8,6 +8,8 @@ pylint = "*"
 
 [packages]
 flask = "*"
+readability-lxml = "*"
+redis = "*"
 
 [requires]
 python_version = "3.7"
