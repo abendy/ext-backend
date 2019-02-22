@@ -29,8 +29,13 @@ function scripts() {
     .pipe(gulp.dest(dist + 'js/'))
 }
 
+function watch() {
+    return gulp.watch(src + 'js/**/*.js', gulp.series(clean, scripts));
+}
+
 const build = gulp.series(clean, scripts)
 
 exports.default = build
 exports.build = build
 exports.clean = clean
+exports.watch = watch;
