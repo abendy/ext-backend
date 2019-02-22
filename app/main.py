@@ -8,15 +8,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def newspaper():
-    page = request.args.get('page')
+    url = request.args.get('page')
     title = ''
-    if page:
-        response = requests.get(page)
-        doc = Document(response.text)
 
-        page = doc.summary(True)
+    if url:
+        try:
+            response = requests.get(url, timeout=10)
 
-        return render_template('home.html', tite=title, page=page)
+            if response.ok:
+                page = Document(response.text)
+
+                title = page.title()
+                page = page.summary(True)
+
+                return render_template('home.html', title=title, page=page)
+
+        except:
+            print('Error processing URL: %s' % url)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
