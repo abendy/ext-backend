@@ -16,7 +16,7 @@ const dist = 'app/static/'
 // Begin Gulp Tasks
 //////////////////////////////
 
-const clean = () => {
+const clean = (cb) => {
     return del([dist + 'js/*.js', dist + 'css/*.css'], cb)
 }
 
