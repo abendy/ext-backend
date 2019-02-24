@@ -142,6 +142,32 @@
         rangy.saveSelectionCookie();
     }
 
+    // save / restore
+    var savedSel = null;
+    var savedSelActiveElement = null;
+
+    function saveSelection() {
+        // Remove markers for previously saved selection
+        if (savedSel) {
+            rangy.removeMarkers(savedSel);
+        }
+        savedSel = rangy.saveSelection();
+        savedSelActiveElement = document.activeElement;
+        gEBI("restoreButton").disabled = false;
+    }
+
+    function restoreSelection() {
+        if (savedSel) {
+            rangy.restoreSelection(savedSel, true);
+            savedSel = null;
+            gEBI("restoreButton").disabled = true;
+            window.setTimeout(function() {
+                if (savedSelActiveElement && typeof savedSelActiveElement.focus != "undefined") {
+                    savedSelActiveElement.focus();
+                }
+            }, 1);
+        }
+    }
 
 
     // Initialize Rangy
@@ -194,6 +220,31 @@
             // Restore the selection from a previous visit to this page
             restoreSelection();
         }
+
+        // save / restore
+        // Enable buttons
+        var saveRestoreModule = rangy.modules.SaveRestore;
+        if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {
+            var saveButton = gEBI("saveButton");
+            saveButton.disabled = false;
+            saveButton.ontouchstart = saveButton.onmousedown = function() {
+                saveSelection();
+                return false;
+            };
+
+            var restoreButton = gEBI("restoreButton");
+            restoreButton.ontouchstart = restoreButton.onmousedown = function() {
+                restoreSelection();
+                return false;
+            };
+
+            // Display the control range element in IE
+            if (rangy.features.implementsControlRange) {
+                gEBI("controlRange").style.display = "block";
+            }
+        }
+
+
 
     };
 

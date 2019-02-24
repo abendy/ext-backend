@@ -36,17 +36,19 @@
 
         <div>
             <h4>Deserialize selection</h4>
-            Paste a serialized selection into the text box below and click the button to restore the serialized selection.
             <input type="text" disabled id="selectionToDeserialize" size="30">
             <input type="button" disabled id="deserializeButton" value="Restore selection" unselectable="on" class="unselectable">
         </div>
 
         <div>
             <h4>Preserving the selection between page requests</h4>
-            The selection on this page will be preserved between page requests. Press the following button or your browser's
-            refresh button to refresh the page
-            <br>
             <input type="button" value="refresh" onclick="window.location.reload();">
+        </div>
+
+        <div>
+            <h4>Save and restore selection</h4>
+            <input id="saveButton" disabled type="button" value="Save selection" unselectable="on" class="unselectable">
+            <input id="restoreButton" disabled type="button" value="Restore selection" unselectable="on" class="unselectable">
         </div>
 
     </div>
