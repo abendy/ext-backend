@@ -10,7 +10,7 @@ const sass = require('gulp-sass')
 const uglify = require('gulp-uglify')
 
 const src = 'src/'
-const dist = 'app/static/'
+const dist = 'app/static/dist/'
 
 //////////////////////////////
 // Begin Gulp Tasks
