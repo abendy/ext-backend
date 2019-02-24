@@ -7,6 +7,7 @@ const del = require('del')
 const gulp = require('gulp')
 const lint = require('eslint')
 const sass = require('gulp-sass')
+const sourcemaps = require('gulp-sourcemaps')
 const uglify = require('gulp-uglify')
 
 const src = 'src/'
@@ -25,10 +26,18 @@ const scripts = () => {
         'node_modules/rangy/lib/rangy-core.js',
         'node_modules/rangy/lib/rangy-serializer.js',
         'node_modules/rangy/lib/rangy-selectionsaverestore.js',
+        'node_modules/rangy/lib/rangy-classapplier.js',
+        'node_modules/rangy/lib/rangy-highlighter.js',
         src + 'js/rangy.js'
     ])
-    .pipe(uglify())
+    //compile
     .pipe(concat('main.js'))
+    .pipe(gulp.dest(dist + 'js/'))
+    //minify
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(concat('main.min.js'))
+    .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(dist + 'js/'))
 }
 
@@ -38,8 +47,14 @@ const styles = () => {
     ])
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
+    //compile
     .pipe(concat('main.css'))
+    .pipe(gulp.dest(dist + 'css/'))
+    //minify
+    .pipe(sourcemaps.init())
     .pipe(cleanCSS())
+    .pipe(concat('main.min.css'))
+    .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(dist + 'css/'))
 }
 

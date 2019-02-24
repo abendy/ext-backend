@@ -51,6 +51,21 @@
             <input id="restoreButton" disabled type="button" value="Restore selection" unselectable="on" class="unselectable">
         </div>
 
+        <div>
+            <h4>Highlighter</h4>
+            <input type="button" ontouchstart="highlightSelectedText();" onclick="highlightSelectedText();" value="Highlight selection">
+            <input type="button" ontouchstart="noteSelectedText();" onclick="noteSelectedText();" value="Add note to selection">
+            <input type="button" ontouchstart="removeHighlightFromSelectedText();" onclick="removeHighlightFromSelectedText();" value="Remove highlights from selection">
+            <input type="button" ontouchstart="highlightScopedSelectedText();" onclick="highlightScopedSelectedText();" value="Highlight within outlined paragraph">
+            <input type="button" ontouchstart="noteScopedSelectedText();" onclick="noteScopedSelectedText();" value="Annotate selection within outlined paragraph">
+
+            <h4>Preserving highlights between page requests</h4>
+            <form action="highlighter.html" method="get">
+                <input type="hidden" name="serializedHighlights" value="">
+                <input type="button" value="Reload" onclick="reloadPage(this)">
+            </form>
+        </div>
+
     </div>
 
     <div id="main">
