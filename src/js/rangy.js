@@ -121,13 +121,32 @@
         button = null;
     }
 
+    // serialize / deserialize
+
+    function serializeSelection() {
+        var input = gEBI("serializedSelection");
+        input.value = rangy.serializeSelection();
+        input.focus();
+        input.select();
+    }
+
+    function deserializeSelection() {
+        rangy.deserializeSelection(gEBI("selectionToDeserialize").value);
+    }
+
+    function restoreSelection() {
+        rangy.restoreSelectionFromCookie();
+    }
+
+    function saveSelection() {
+        rangy.saveSelectionCookie();
+    }
+
+
+
+    // Initialize Rangy
     window.onload = function() {
         rangy.init();
-
-        // Enable multiple selections in IE
-        try {
-            document.execCommand("MultipleSelection", true, true);
-        } catch (ex) {}
 
         // Create selection buttons
         var selectionButtonsContainer = gEBI("selectionButtons");
@@ -152,6 +171,33 @@
         if (rangy.features.implementsControlRange) {
             gEBI("controlRange").style.display = "block";
         }
+
+        // serialize / deserialize
+        // Enable buttons
+        var serializerModule = rangy.modules.Serializer;
+        if (rangy.supported && serializerModule && serializerModule.supported) {
+            gEBI("serializedSelection").disabled = false;
+            var serializeButton = gEBI("serializeButton");
+            serializeButton.disabled = false;
+            serializeButton.ontouchstart = serializeButton.onclick = serializeSelection;
+
+            gEBI("selectionToDeserialize").disabled = false;
+            var deserializeButton = gEBI("deserializeButton");
+            deserializeButton.disabled = false;
+            deserializeButton.ontouchstart = deserializeButton.onclick = deserializeSelection;
+
+            // Display the control range element in IE
+            if (rangy.features.implementsControlRange) {
+                gEBI("controlRange").style.display = "block";
+            }
+
+            // Restore the selection from a previous visit to this page
+            restoreSelection();
+        }
+
     };
+
+    window.onbeforeunload = saveSelection;
+
 
 })(this, this.document);

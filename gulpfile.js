@@ -23,6 +23,7 @@ const clean = (cb) => {
 const scripts = () => {
     return gulp.src([
         'node_modules/rangy/lib/rangy-core.js',
+        'node_modules/rangy/lib/rangy-serializer.js',
         src + 'js/rangy.js'
     ])
     .pipe(uglify())
