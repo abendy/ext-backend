@@ -16,13 +16,14 @@ const dist = 'app/static/'
 // Begin Gulp Tasks
 //////////////////////////////
 
-const clean = () => {
+const clean = (cb) => {
     return del([dist + 'js/*.js', dist + 'css/*.css'], cb)
 }
 
 const scripts = () => {
     return gulp.src([
         'node_modules/rangy/lib/rangy-core.js',
+        'node_modules/rangy/lib/rangy-serializer.js',
         src + 'js/rangy.js'
     ])
     .pipe(uglify())

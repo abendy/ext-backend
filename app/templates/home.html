@@ -25,6 +25,30 @@
 
         <!-- <div id="selectioncontent" style="display: none;"></div>
         <textarea rows="10" cols="10" id="code"></textarea> -->
+
+        <!-- serialize / deserialize -->
+        <div>
+            <h4>Serialize selection</h4>
+            Click the button to serialize the selection. The serialized selection will appear in the text box.
+            <input type="text" disabled id="serializedSelection" size="30">
+            <input type="button" disabled id="serializeButton" value="Serialize selection" unselectable="on" class="unselectable">
+        </div>
+
+        <div>
+            <h4>Deserialize selection</h4>
+            Paste a serialized selection into the text box below and click the button to restore the serialized selection.
+            <input type="text" disabled id="selectionToDeserialize" size="30">
+            <input type="button" disabled id="deserializeButton" value="Restore selection" unselectable="on" class="unselectable">
+        </div>
+
+        <div>
+            <h4>Preserving the selection between page requests</h4>
+            The selection on this page will be preserved between page requests. Press the following button or your browser's
+            refresh button to refresh the page
+            <br>
+            <input type="button" value="refresh" onclick="window.location.reload();">
+        </div>
+
     </div>
 
     <div id="main">
