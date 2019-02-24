@@ -1,6 +1,8 @@
 (function (window, document) {
     'use strict';
 
+    // exact selection & range selection
+
     function getFirstRange() {
         var sel = rangy.getSelection();
         return sel.rangeCount ? sel.getRangeAt(0) : null;
@@ -18,30 +20,6 @@
         alert( rangy.getSelection().inspect() );
     }
 
-    // function deleteSelection() {
-    //     rangy.getSelection().deleteFromDocument();
-    // }
-
-    // function collapseSelectionToStart() {
-    //     rangy.getSelection().collapseToStart();
-    // }
-
-    // function collapseSelectionToEnd() {
-    //     rangy.getSelection().collapseToEnd();
-    // }
-
-    // function showContent(frag) {
-    //     var displayEl = document.getElementById("selectioncontent");
-    //     var codeEl = document.getElementById("code");
-    //     while (displayEl.firstChild) {
-    //         displayEl.removeChild(displayEl.firstChild);
-    //     }
-    //     if (frag) {
-    //         displayEl.appendChild(frag);
-    //     }
-    //     codeEl.value = displayEl.innerHTML;
-    // }
-
     function inspectRange() {
         var range = getFirstRange();
         if (range) {
@@ -54,67 +32,6 @@
         if (range) {
             alert(range.toHtml());
         }
-    }
-
-    // function extractRange() {
-    //     var range = getFirstRange();
-    //     if (range) {
-    //         showContent(range.extractContents());
-    //     }
-    // }
-
-    // function cloneRange() {
-    //     var range = getFirstRange();
-    //     if (range) {
-    //         showContent(range.cloneContents());
-    //     }
-    // }
-
-    // function deleteRange() {
-    //     var range = getFirstRange();
-    //     if (range) {
-    //         range.deleteContents();
-    //     }
-    // }
-
-    // function surroundRange() {
-    //     var range = getFirstRange();
-    //     if (range) {
-    //         var el = document.createElement("span");
-    //         el.style.backgroundColor = "pink";
-    //         if (range.canSurroundContents(el)) {
-    //             range.surroundContents(el);
-    //         } else {
-    //             alert("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
-    //         }
-    //     }
-    // }
-
-    // function insertNodeAtRange() {
-    //     var range = getFirstRange();
-    //     if (range) {
-    //         var el = document.createElement("span");
-    //         el.style.backgroundColor = "lightblue";
-    //         el.style.color = "red";
-    //         el.style.fontWeight = "bold";
-    //         el.appendChild(document.createTextNode("**INSERTED NODE**"));
-    //         range.insertNode(el);
-    //         rangy.getSelection().setSingleRange(range);
-    //     }
-    // }
-
-    function createButton(parentNode, clickHandler, value) {
-        var button = document.createElement("input");
-        button.type = "button";
-        button.unselectable = true;
-        button.className = "unselectable";
-        button.ontouchstart = button.onmousedown = function() {
-            clickHandler();
-            return false;
-        };
-        button.value = value;
-        parentNode.appendChild(button);
-        button = null;
     }
 
     // serialize / deserialize
@@ -139,24 +56,22 @@
     }
 
     // save / restore
+
     var savedSel = null;
     var savedSelActiveElement = null;
 
-    function saveSelection() {
-        // Remove markers for previously saved selection
+    function saveSelection2() {
         if (savedSel) {
             rangy.removeMarkers(savedSel);
         }
         savedSel = rangy.saveSelection();
         savedSelActiveElement = document.activeElement;
-        document.getElementById("restoreButton").disabled = false;
     }
 
     function restoreSelection() {
         if (savedSel) {
             rangy.restoreSelection(savedSel, true);
             savedSel = null;
-            document.getElementById("restoreButton").disabled = true;
             window.setTimeout(function() {
                 if (savedSelActiveElement && typeof savedSelActiveElement.focus != "undefined") {
                     savedSelActiveElement.focus();
@@ -165,13 +80,9 @@
         }
     }
 
-
     // highlighter
 
-    var serializedHighlights = decodeURIComponent(window.location.search.slice(window.location.search.indexOf("=") + 1));
     var highlighter;
-
-    var initialDoc;
 
     function highlightSelectedText() {
         highlighter.highlightSelection("highlight");
@@ -193,11 +104,21 @@
         highlighter.highlightSelection("note", { containerElementId: "summary" });
     }
 
-    function reloadPage(button) {
-        button.form.elements["serializedHighlights"].value = highlighter.serialize();
-        button.form.submit();
-    }
+    // Helpers
 
+    function createButton(parentNode, clickHandler, value) {
+        var button = document.createElement("input");
+        button.type = "button";
+        button.unselectable = true;
+        button.className = "unselectable";
+        button.ontouchstart = button.onmousedown = function() {
+            clickHandler();
+            return false;
+        };
+        button.value = value;
+        parentNode.appendChild(button);
+        button = null;
+    }
 
     // Initialize Rangy
     window.onload = function() {
@@ -208,72 +129,31 @@
         createButton(selectionButtonsContainer, reportSelectionText, "Get exact selection");
         createButton(selectionButtonsContainer, inspectSelection, "Inspect exact selection");
         createButton(selectionButtonsContainer, reportSelectionHtml, "Get exact selection HTML");
-        // createButton(selectionButtonsContainer, deleteSelection, "Delete selection");
-        // createButton(selectionButtonsContainer, collapseSelectionToStart, "Collapse to start");
-        // createButton(selectionButtonsContainer, collapseSelectionToEnd, "Collapse to end");
 
-        // Create Range buttons
+        // Create range buttons
         var rangeButtonsContainer = document.getElementById("rangeButtons");
         createButton(rangeButtonsContainer, inspectRange, "Show range");
         createButton(rangeButtonsContainer, reportRangeHtml, "Show range HTML");
-        // createButton(rangeButtonsContainer, extractRange, "Extract range");
-        // createButton(rangeButtonsContainer, cloneRange, "Clone");
-        // createButton(rangeButtonsContainer, deleteRange, "Delete");
-        // createButton(rangeButtonsContainer, surroundRange, "Surround (where possible)");
-        // createButton(rangeButtonsContainer, insertNodeAtRange, "Insert node");
 
-        // Display the control range element in IE
-        if (rangy.features.implementsControlRange) {
-            document.getElementById("controlRange").style.display = "block";
-        }
+        // Create serialize / deserialize buttons
+        createButton(serializeButtonsContainer, serializeSelection, "Serialize selection");
+        createButton(deserializeButtonsContainer, deserializeSelection, "Restore selection");
 
-        // serialize / deserialize
-        // Enable buttons
-        var serializerModule = rangy.modules.Serializer;
-        if (rangy.supported && serializerModule && serializerModule.supported) {
-            document.getElementById("serializedSelection").disabled = false;
-            var serializeButton = document.getElementById("serializeButton");
-            serializeButton.disabled = false;
-            serializeButton.ontouchstart = serializeButton.onclick = serializeSelection;
-
-            document.getElementById("selectionToDeserialize").disabled = false;
-            var deserializeButton = document.getElementById("deserializeButton");
-            deserializeButton.disabled = false;
-            deserializeButton.ontouchstart = deserializeButton.onclick = deserializeSelection;
-
-            // Display the control range element in IE
-            if (rangy.features.implementsControlRange) {
-                document.getElementById("controlRange").style.display = "block";
-            }
-
-            // Restore the selection from a previous visit to this page
-            restoreSelection();
-        }
-
-        // save / restore
-        // Enable buttons
+        // Create save / restore buttons
         var saveRestoreModule = rangy.modules.SaveRestore;
         if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {
-            var saveButton = document.getElementById("saveButton");
-            saveButton.disabled = false;
-            saveButton.ontouchstart = saveButton.onmousedown = function() {
-                saveSelection();
-                return false;
-            };
-
-            var restoreButton = document.getElementById("restoreButton");
-            restoreButton.ontouchstart = restoreButton.onmousedown = function() {
-                restoreSelection();
-                return false;
-            };
-
-            // Display the control range element in IE
-            if (rangy.features.implementsControlRange) {
-                document.getElementById("controlRange").style.display = "block";
-            }
+            createButton(saveButtonsContainer, saveSelection2, "Save selection");
+            createButton(saveButtonsContainer, restoreSelection, "Restore selection");
         }
 
-        // highlighter
+        // Create highlighter buttons
+        var highlightButtonsContainer = document.getElementById("highlightButtons");
+        createButton(highlightButtonsContainer, highlightSelectedText, "Highlight selection");
+        createButton(highlightButtonsContainer, noteSelectedText, "Add note to selection");
+        createButton(highlightButtonsContainer, removeHighlightFromSelectedText, "Remove highlights from selection");
+        createButton(highlightButtonsContainer, highlightScopedSelectedText, "Highlight within outlined paragraph");
+        createButton(highlightButtonsContainer, noteScopedSelectedText, "Annotate selection within outlined paragraph");
+
         highlighter = rangy.createHighlighter();
 
         highlighter.addClassApplier(rangy.createClassApplier("highlight", {
@@ -295,10 +175,6 @@
                 }
             }
         }));
-
-        if (serializedHighlights) {
-            highlighter.deserialize(serializedHighlights);
-        }
 
     };
 

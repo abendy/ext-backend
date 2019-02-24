@@ -25,7 +25,19 @@ body {
 .button-set {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 280px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.note {
+    background-color: limegreen;
+}
+
+#summary {
+    border: dotted orange 1px;
 }
 
 #main {
