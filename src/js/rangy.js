@@ -1,10 +1,6 @@
 (function (window, document) {
     'use strict';
 
-    function gEBI(id) {
-        return document.getElementById(id);
-    }
-
     function getFirstRange() {
         var sel = rangy.getSelection();
         return sel.rangeCount ? sel.getRangeAt(0) : null;
@@ -35,8 +31,8 @@
     // }
 
     // function showContent(frag) {
-    //     var displayEl = gEBI("selectioncontent");
-    //     var codeEl = gEBI("code");
+    //     var displayEl = document.getElementById("selectioncontent");
+    //     var codeEl = document.getElementById("code");
     //     while (displayEl.firstChild) {
     //         displayEl.removeChild(displayEl.firstChild);
     //     }
@@ -124,14 +120,14 @@
     // serialize / deserialize
 
     function serializeSelection() {
-        var input = gEBI("serializedSelection");
+        var input = document.getElementById("serializedSelection");
         input.value = rangy.serializeSelection();
         input.focus();
         input.select();
     }
 
     function deserializeSelection() {
-        rangy.deserializeSelection(gEBI("selectionToDeserialize").value);
+        rangy.deserializeSelection(document.getElementById("selectionToDeserialize").value);
     }
 
     function restoreSelection() {
@@ -153,14 +149,14 @@
         }
         savedSel = rangy.saveSelection();
         savedSelActiveElement = document.activeElement;
-        gEBI("restoreButton").disabled = false;
+        document.getElementById("restoreButton").disabled = false;
     }
 
     function restoreSelection() {
         if (savedSel) {
             rangy.restoreSelection(savedSel, true);
             savedSel = null;
-            gEBI("restoreButton").disabled = true;
+            document.getElementById("restoreButton").disabled = true;
             window.setTimeout(function() {
                 if (savedSelActiveElement && typeof savedSelActiveElement.focus != "undefined") {
                     savedSelActiveElement.focus();
@@ -208,7 +204,7 @@
         rangy.init();
 
         // Create selection buttons
-        var selectionButtonsContainer = gEBI("selectionButtons");
+        var selectionButtonsContainer = document.getElementById("selectionButtons");
         createButton(selectionButtonsContainer, reportSelectionText, "Get exact selection");
         createButton(selectionButtonsContainer, inspectSelection, "Inspect exact selection");
         createButton(selectionButtonsContainer, reportSelectionHtml, "Get exact selection HTML");
@@ -217,7 +213,7 @@
         // createButton(selectionButtonsContainer, collapseSelectionToEnd, "Collapse to end");
 
         // Create Range buttons
-        var rangeButtonsContainer = gEBI("rangeButtons");
+        var rangeButtonsContainer = document.getElementById("rangeButtons");
         createButton(rangeButtonsContainer, inspectRange, "Show range");
         createButton(rangeButtonsContainer, reportRangeHtml, "Show range HTML");
         // createButton(rangeButtonsContainer, extractRange, "Extract range");
@@ -228,26 +224,26 @@
 
         // Display the control range element in IE
         if (rangy.features.implementsControlRange) {
-            gEBI("controlRange").style.display = "block";
+            document.getElementById("controlRange").style.display = "block";
         }
 
         // serialize / deserialize
         // Enable buttons
         var serializerModule = rangy.modules.Serializer;
         if (rangy.supported && serializerModule && serializerModule.supported) {
-            gEBI("serializedSelection").disabled = false;
-            var serializeButton = gEBI("serializeButton");
+            document.getElementById("serializedSelection").disabled = false;
+            var serializeButton = document.getElementById("serializeButton");
             serializeButton.disabled = false;
             serializeButton.ontouchstart = serializeButton.onclick = serializeSelection;
 
-            gEBI("selectionToDeserialize").disabled = false;
-            var deserializeButton = gEBI("deserializeButton");
+            document.getElementById("selectionToDeserialize").disabled = false;
+            var deserializeButton = document.getElementById("deserializeButton");
             deserializeButton.disabled = false;
             deserializeButton.ontouchstart = deserializeButton.onclick = deserializeSelection;
 
             // Display the control range element in IE
             if (rangy.features.implementsControlRange) {
-                gEBI("controlRange").style.display = "block";
+                document.getElementById("controlRange").style.display = "block";
             }
 
             // Restore the selection from a previous visit to this page
@@ -258,14 +254,14 @@
         // Enable buttons
         var saveRestoreModule = rangy.modules.SaveRestore;
         if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {
-            var saveButton = gEBI("saveButton");
+            var saveButton = document.getElementById("saveButton");
             saveButton.disabled = false;
             saveButton.ontouchstart = saveButton.onmousedown = function() {
                 saveSelection();
                 return false;
             };
 
-            var restoreButton = gEBI("restoreButton");
+            var restoreButton = document.getElementById("restoreButton");
             restoreButton.ontouchstart = restoreButton.onmousedown = function() {
                 restoreSelection();
                 return false;
@@ -273,7 +269,7 @@
 
             // Display the control range element in IE
             if (rangy.features.implementsControlRange) {
-                gEBI("controlRange").style.display = "block";
+                document.getElementById("controlRange").style.display = "block";
             }
         }
 
