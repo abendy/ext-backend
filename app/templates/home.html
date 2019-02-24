@@ -7,45 +7,26 @@
 
     <title>quote-saver</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material-grid.min.css" />
-    <style>
-        ::-webkit-scrollbar {
-            display: none;
-        }
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" sizes="192x192">
 
-        html {
-            box-sizing: border-box;
-            height: 100%;
-        }
-
-        body {
-            background-color: #999;
-            font-family: 'Open Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            text-rendering: optimizeLegibility;
-        }
-
-        #main {
-            background-color: #fff;
-            margin: 0 auto;
-            padding: 1rem;
-            width: 60%;
-        }
-
-        figure {
-            margin: 0;
-            padding: 0;
-        }
-
-        img {
-            max-width: 100%;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
 </head>
 
 <body>
+    <div id="buttons">
+        <div class="button-set" id="selectionButtons">
+            <h4>ExactSelection methods</h4>
+        </div>
+
+        <div class="button-set" id="rangeButtons">
+            <h4>Range methods</h4>
+        </div>
+
+        <!-- <div id="selectioncontent" style="display: none;"></div>
+        <textarea rows="10" cols="10" id="code"></textarea> -->
+    </div>
+
     <div id="main">
         {% if title %}
         <h1>{{ title }}</h1>
@@ -56,6 +37,7 @@
         {% endif %}
     </div>
 
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 
 </html>
