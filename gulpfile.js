@@ -16,11 +16,11 @@ const dist = 'app/static/'
 // Begin Gulp Tasks
 //////////////////////////////
 
-function clean(cb) {
-    return del([dist + 'js/*.js'], cb)
+const clean = () => {
+    return del([dist + 'js/*.js', dist + 'css/*.css'], cb)
 }
 
-function scripts() {
+const scripts = () => {
     return gulp.src([
         'node_modules/rangy/lib/rangy-core.js',
         src + 'js/rangy.js'
@@ -30,7 +30,7 @@ function scripts() {
     .pipe(gulp.dest(dist + 'js/'))
 }
 
-function styles() {
+const styles = () => {
     return gulp.src([
         src + 'scss/style.scss'
     ])
@@ -41,14 +41,18 @@ function styles() {
     .pipe(gulp.dest(dist + 'css/'))
 }
 
-function watch() {
-    return gulp.watch(src + 'js/**/*.js', gulp.series(clean, scripts));
-    return gulp.watch(src + 'js/**/*.js', gulp.series(clean, styles));
+const watch = () => {
+    gulp.watch(src + 'js/**/*.js', scripts)
+    gulp.watch(src + 'scss/**/*.scss', styles)
 }
 
 const build = gulp.series(clean, scripts, styles)
 
-exports.default = build
-exports.build = build
-exports.clean = clean
-exports.watch = watch;
+module.exports = {
+    default: build,
+    build,
+    clean,
+    scripts,
+    styles,
+    watch
+}
