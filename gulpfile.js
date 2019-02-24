@@ -26,6 +26,8 @@ const scripts = () => {
         'node_modules/rangy/lib/rangy-core.js',
         'node_modules/rangy/lib/rangy-serializer.js',
         'node_modules/rangy/lib/rangy-selectionsaverestore.js',
+        'node_modules/rangy/lib/rangy-classapplier.js',
+        'node_modules/rangy/lib/rangy-highlighter.js',
         src + 'js/rangy.js'
     ])
     //compile
