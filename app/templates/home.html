@@ -27,45 +27,25 @@
         <textarea rows="10" cols="10" id="code"></textarea> -->
 
         <!-- serialize / deserialize -->
-        <div>
+        <div class="button-set"  id="serializeButtonsContainer">
             <h4>Serialize selection</h4>
-            Click the button to serialize the selection. The serialized selection will appear in the text box.
             <input type="text" disabled id="serializedSelection" size="30">
-            <input type="button" disabled id="serializeButton" value="Serialize selection" unselectable="on" class="unselectable">
         </div>
 
-        <div>
+        <div class="button-set"  id="deserializeButtonsContainer">
             <h4>Deserialize selection</h4>
             <input type="text" disabled id="selectionToDeserialize" size="30">
-            <input type="button" disabled id="deserializeButton" value="Restore selection" unselectable="on" class="unselectable">
         </div>
 
-        <div>
-            <h4>Preserving the selection between page requests</h4>
-            <input type="button" value="refresh" onclick="window.location.reload();">
-        </div>
-
-        <div>
+        <!-- save / restore buttons -->
+        <div class="button-set" id="saveButtonsContainer">
             <h4>Save and restore selection</h4>
-            <input id="saveButton" disabled type="button" value="Save selection" unselectable="on" class="unselectable">
-            <input id="restoreButton" disabled type="button" value="Restore selection" unselectable="on" class="unselectable">
         </div>
 
-        <div>
+        <!-- highlight buttons -->
+        <div class="button-set" id="highlightButtons">
             <h4>Highlighter</h4>
-            <input type="button" ontouchstart="highlightSelectedText();" onclick="highlightSelectedText();" value="Highlight selection">
-            <input type="button" ontouchstart="noteSelectedText();" onclick="noteSelectedText();" value="Add note to selection">
-            <input type="button" ontouchstart="removeHighlightFromSelectedText();" onclick="removeHighlightFromSelectedText();" value="Remove highlights from selection">
-            <input type="button" ontouchstart="highlightScopedSelectedText();" onclick="highlightScopedSelectedText();" value="Highlight within outlined paragraph">
-            <input type="button" ontouchstart="noteScopedSelectedText();" onclick="noteScopedSelectedText();" value="Annotate selection within outlined paragraph">
-
-            <h4>Preserving highlights between page requests</h4>
-            <form action="highlighter.html" method="get">
-                <input type="hidden" name="serializedHighlights" value="">
-                <input type="button" value="Reload" onclick="reloadPage(this)">
-            </form>
         </div>
-
     </div>
 
     <div id="main">
