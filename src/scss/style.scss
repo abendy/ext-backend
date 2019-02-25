@@ -28,16 +28,11 @@ body {
     width: 280px;
 }
 
-.highlight {
-    background-color: yellow;
-}
-
+.highlight,
 .note {
-    background-color: limegreen;
-}
-
-#summary {
-    border: dotted orange 1px;
+    color: #000;
+    background-color: yellow;
+    text-decoration: none;
 }
 
 #main {
