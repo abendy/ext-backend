@@ -10,31 +10,13 @@
     <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" sizes="192x192">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='dist/css/main.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='dist/css/main.min.css') }}" rel="stylesheet" />
 </head>
 
 <body>
     <div id="buttons">
         <div class="button-set" id="selectionButtons">
-            <h4>ExactSelection methods</h4>
-        </div>
-
-        <div class="button-set" id="rangeButtons">
-            <h4>Range methods</h4>
-        </div>
-
-        <!-- <div id="selectioncontent" style="display: none;"></div>
-        <textarea rows="10" cols="10" id="code"></textarea> -->
-
-        <!-- serialize / deserialize -->
-        <div class="button-set"  id="serializeButtonsContainer">
-            <h4>Serialize selection</h4>
-            <input type="text" disabled id="serializedSelection" size="30">
-        </div>
-
-        <div class="button-set"  id="deserializeButtonsContainer">
-            <h4>Deserialize selection</h4>
-            <input type="text" disabled id="selectionToDeserialize" size="30">
+            <h4>Exact Selection & Range methods</h4>
         </div>
 
         <!-- save / restore buttons -->
@@ -58,7 +40,7 @@
         {% endif %}
     </div>
 
-    <script src="{{ url_for('static', filename='dist/js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/js/main.min.js') }}"></script>
 </body>
 
 </html>
