@@ -15,26 +15,6 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-#buttons {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    width: 300px;
-}
-
-.button-set {
-    display: flex;
-    flex-direction: column;
-    width: 280px;
-}
-
-.highlight,
-.note {
-    color: #000;
-    background-color: yellow;
-    text-decoration: none;
-}
-
 #main {
     background-color: #fff;
     margin: 0 auto;
