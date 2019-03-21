@@ -2,10 +2,11 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import jsonify
-import redis
-import requests
+from flask import make_response
 from readability import Document
 import json
+import redis
+import requests
 
 app = Flask(__name__)
 
@@ -64,10 +65,12 @@ def get():
 
     if hostname:
         try:
-            response = jsonify(cache.hgetall(hostname))
+            body = jsonify(cache.hgetall(hostname))
         except:
             return "Error getting data: %s" % hostname
 
+    response = make_response(body)
+    response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
 @app.route('/api/delete/', methods = ['POST'])
