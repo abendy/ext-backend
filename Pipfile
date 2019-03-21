@@ -10,6 +10,7 @@ pylint = "*"
 flask = "*"
 readability-lxml = "*"
 redis = "*"
+pyopenssl = "*"
 
 [requires]
 python_version = "3.7"

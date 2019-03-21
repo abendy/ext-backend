@@ -1,9 +1,11 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import jsonify
 import redis
 import requests
 from readability import Document
+import json
 
 app = Flask(__name__)
 
@@ -35,6 +37,54 @@ def main():
     page = doc.summary(True)
 
     return render_template('home.html', title=title, page=page)
+
+@app.route('/api/save/', methods = ['POST'])
+def save():
+    data = request.get_json()
+
+    hostname = list(data.keys())[0]
+    highlight_id = list(data[hostname])[0]
+    body = json.dumps(data[hostname][highlight_id])
+
+    if hostname and highlight_id and body:
+        try:
+            if not cache.hexists(hostname, highlight_id):
+                cache.hset(hostname, highlight_id, body)
+                return cache.hget(hostname, highlight_id).decode("utf-8")
+            else:
+                return cache.hget(hostname, highlight_id).decode("utf-8")
+        except:
+            return "Error saving data: %s" % highlight_id
+
+@app.route('/api/get/', methods = ['POST'])
+def get():
+    data = request.get_json()
+
+    hostname = data['hostname']
+
+    if hostname:
+        try:
+            response = jsonify(cache.hgetall(hostname))
+        except:
+            return "Error getting data: %s" % hostname
+
+    return response
+
+@app.route('/api/delete/', methods = ['POST'])
+def delete():
+    data = request.get_json()
+    # return jsonify(data)
+
+    hostname = data['hostname']
+    highlight_id = data['highlight_id']
+
+    if hostname and highlight_id:
+        try:
+            cache.hdel(hostname, highlight_id)
+        except:
+            return "Error getting data: %s" % hostname
+
+    return "Deleted highlight: %s" % highlight_id
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
