@@ -53,9 +53,8 @@ def save():
         try:
             if not cache.hexists(hostname, highlight_id):
                 cache.hset(hostname, highlight_id, body)
-                return cache.hget(hostname, highlight_id).decode("utf-8")
-            else:
-                return cache.hget(hostname, highlight_id).decode("utf-8")
+
+            return cache.hget(hostname, highlight_id).decode("utf-8")
         except:
             return "Error saving data: %s" % highlight_id
 
