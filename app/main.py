@@ -62,15 +62,25 @@ def save():
 def get():
     data = request.get_json()
 
-    hostname = data['hostname']
+    if 'hostname' in data.keys():
+        hostname = data['hostname']
+
+    if 'highlight_id' in data.keys():
+        highlight_id = data['highlight_id']
 
     if hostname:
-        try:
-            body = jsonify(cache.hgetall(hostname))
-        except:
-            return "Error getting data: %s" % hostname
+        if highlight_id:
+            try:
+                body = cache.hget(hostname, highlight_id)
+            except:
+                return "Error getting data: %s" % highlight_id
+        else:
+            try:
+                body = cache.hgetall(hostname)
+            except:
+                return "Error getting data: %s" % hostname
 
-    response = make_response(body)
+    response = jsonify(body)
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
 
